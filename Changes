@@ -1,0 +1,30 @@
+Revision history for Perl module Power::Outlet
+
+TODO
+  - iBootBar default name from SNMP
+
+0.06 2013-11-30
+  - Added license file for DCRoundSwitch icons.
+
+0.05 2013-11-30
+  - Updated Power::Outlet::iBootBar to not query device in void context
+
+0.04 2013-11-30
+  - Updated power-outlet.cgi to pull outlets from ini file
+  - Updated power-outlet.cgi to work nicely on iPhone
+  - Updated spec to build RPM perl-Power-Outlet-application-cgi
+
+0.03 2013-11-29
+  - Updated power-outlet.cgi
+  - Added name property
+
+0.02 2013-11-26
+  - Updated Power::Outlet->new to call subclass->new
+  - Added program power-outlet
+  - Added CGI example power-outlet.cgi
+  - Added tests
+  - Added RPM Spec
+
+0.01 2013-11-23
+  - original version; created by ExtUtils::ModuleMaker 0.51
+  - Power::Outlet::iBoot was first Net:iBoot as iBoot uses a custom TCP/IP protocol
