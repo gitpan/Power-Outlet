@@ -4,12 +4,12 @@ use warnings;
 use base qw{Power::Outlet::Common::IP};
 use Net::SNMP qw{INTEGER};
 
-our $VERSION='0.03';
+our $VERSION='0.07';
 
 
 =head1 NAME
 
-Power::Outlet::Common::IP::SNMP - Control and query a Dataprobe iBootBar power switch
+Power::Outlet::Common::IP::SNMP - Power::Outlet base class for SNMP power outlet
 
 =head1 SYNOPSIS
 
@@ -17,7 +17,7 @@ Power::Outlet::Common::IP::SNMP - Control and query a Dataprobe iBootBar power s
 
 =head1 DESCRIPTION
  
-Power::Outlet::iBootBar is a package for controlling and querying an outlet on a Dataprobe iBootBar network attached power switch.
+Power::Outlet::Common::IP::SNMP is a package for controlling and querying an SNMP-based network attached power outlet.
 
 =head1 USAGE
 

@@ -3,23 +3,23 @@ use strict;
 use warnings;
 use base qw{Power::Outlet::Common};
 
-our $VERSION='0.03';
+our $VERSION='0.07';
 
 =head1 NAME
 
-Power::Outlet::IP - Control and query an Internet based power switch
+Power::Outlet::Common::IP - Power::Outlet base class for Internet Protocol power outlet
 
 =head1 SYNOPSIS
 
-  use base qw{Power::Outlet::IP};
+  use base qw{Power::Outlet::Common::IP};
 
 =head1 DESCRIPTION
  
-Power::Outlet::IP is a base package for controlling and querying a Internet based power switch.
+Power::Outlet::Common::IP is a base package for controlling and querying Internet based power outlet.
 
 =head1 USAGE
 
-  use base qw{Power::Outlet::IP};
+  use base qw{Power::Outlet::Common::IP};
 
 =head1 CONSTRUCTOR
 

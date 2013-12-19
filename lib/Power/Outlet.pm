@@ -2,11 +2,11 @@ package Power::Outlet;
 use strict;
 use warnings;
 
-our $VERSION='0.06';
+our $VERSION='0.07';
 
 =head1 NAME
 
-Power::Outlet - Control and query network attached power switches
+Power::Outlet - Control and query network attached power outlets
 
 =head1 SYNOPSIS
 
@@ -33,11 +33,11 @@ Constructs a L<Power::Outlet::iBootBar>
 
 =head1 DESCRIPTION
  
-Power::Outlet is a package for controlling and querying network attached power switches.  Individual hardware drivers in this name space must provide a common object interface for the controlling and querying of an outlet.  Common methods that every network attached power outlet must know are on, off, query, switch and cycle.  Optional methods might be implemented in some drivers like amps and volts.
+Power::Outlet is a package for controlling and querying network attached power outlets.  Individual hardware drivers in this name space must provide a common object interface for the controlling and querying of an outlet.  Common methods that every network attached power outlet must know are on, off, query, switch and cycle.  Optional methods might be implemented in some drivers like amps and volts.
 
 =head2 SCOPE
 
-The current scope of these packages is network attached power switches. I have started with iBoot and iBootBar since I have test hardware.  Hardware configuration is beyond the scope of this group of packages as most power switches have functional web based or command line configuration tools.
+The current scope of these packages is network attached power outlets. I have started with iBoot and iBootBar since I have test hardware.  Hardware configuration is beyond the scope of this group of packages as most power outlets have functional web based or command line configuration tools.
 
 =head2 FUTURE
 

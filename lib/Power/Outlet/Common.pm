@@ -4,12 +4,12 @@ use warnings;
 use Time::HiRes qw{sleep};
 use base qw{Package::New};
 
-our $VERSION='0.03';
+our $VERSION='0.07';
 our $STATE="OFF";
 
 =head1 NAME
 
-Power::Outlet::Common - Base class for Power::Outlet sub packages
+Power::Outlet::Common - Power::Outlet base class for all power outlets
 
 =head1 SYNOPSIS
 
@@ -17,7 +17,7 @@ Power::Outlet::Common - Base class for Power::Outlet sub packages
 
 =head1 DESCRIPTION
  
-Power::Outlet::Common is a base class for controlling and querying a power switch.
+Power::Outlet::Common is a base class for controlling and querying a power outlets.
 
 =head1 USAGE
 

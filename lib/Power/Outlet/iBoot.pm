@@ -5,12 +5,12 @@ use base qw{Power::Outlet::Common::IP};
 use IO::Socket;
 use Time::HiRes qw{sleep};
 
-our $VERSION='0.03';
+our $VERSION='0.07';
 our $PACKAGE=__PACKAGE__;
 
 =head1 NAME
 
-Power::Outlet - Control and query a Dataprobe iBoot power switches
+Power::Outlet::iBoot - Control and query a Dataprobe iBoot power outlet
 
 =head1 SYNOPSIS
 
@@ -25,7 +25,7 @@ Power::Outlet - Control and query a Dataprobe iBoot power switches
 
 =head1 DESCRIPTION
  
-Power::Outlet::iBoot is a package for controlling and querying a Dataprobe iBoot network attached power switch.
+Power::Outlet::iBoot is a package for controlling and querying a Dataprobe iBoot network attached power outlet.
 
 iBoot Protocol: The iBoot uses the TCP (Transport Communication Protocol) to communicate with the client system. To communicate with iBoot, establish a TCP connection using the Port as assigned in iBoot Setup.  Once connected use the Send() function to send the commands to the iBoot and the Recv() function to receive the response. After sending a response iBoot will close the connection.  The following outlines the commands and their responses.
 

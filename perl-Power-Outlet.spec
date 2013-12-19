@@ -1,7 +1,7 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.06
+Version:        0.07
 Release:        1%{?dist}
 Summary:        Control and query network attached power switches
 License:        GPL+ or Artistic

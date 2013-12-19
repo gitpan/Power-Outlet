@@ -4,11 +4,12 @@ use warnings;
 use base qw{Power::Outlet::Common::IP::SNMP};
 use Time::HiRes qw{sleep};
 
-our $VERSION='0.05';
+our $VERSION='0.07';
+our $_oid_outletEntry='1.3.6.1.4.1.1418.4.3.1';
 
 =head1 NAME
 
-Power::Outlet::iBootBat - Control and query a Dataprobe iBootBar power switch
+Power::Outlet::iBootBar - Control and query a Dataprobe iBootBar power outlet
 
 =head1 SYNOPSIS
 
@@ -23,7 +24,7 @@ Power::Outlet::iBootBat - Control and query a Dataprobe iBootBar power switch
 
 =head1 DESCRIPTION
  
-Power::Outlet::iBootBar is a package for controlling and querying an outlet on a Dataprobe iBootBar network attached power switch.
+Power::Outlet::iBootBar is a package for controlling and querying an outlet on a Dataprobe iBootBar network attached power outlet.
 
 =head1 USAGE
 
@@ -105,17 +106,38 @@ sub _outletIndex {shift->outlet - 1};
 
 sub _oid_outletStatus {
   my $self=shift;
-  return join(".", "1.3.6.1.4.1.1418.4.3.1.3", $self->_outletIndex); #oids so MIB is not required
+  return join(".", $_oid_outletEntry, "3", $self->_outletIndex); #oids so MIB is not required
 }
 
 sub _oid_outletCommand {
   my $self=shift;
-  return join(".", "1.3.6.1.4.1.1418.4.3.1.4", $self->_outletIndex); #oids so MIB is not required
+  return join(".", $_oid_outletEntry, "4", $self->_outletIndex); #oids so MIB is not required
+}
+
+sub _oid_outletName {
+  my $self=shift;
+  return join(".", $_oid_outletEntry, "2", $self->_outletIndex); #oids so MIB is not required
 }
 
 =head2 name
 
 =cut
+
+#TODO: Pull name from SNMP outletName
+#
+#  $ telnet iBootBar
+#
+#  iBootBar Rev 1.5d.275
+#
+#  User Name:  admin
+#  Password:  *****
+#
+#  iBootBar > help outlet
+#  ...
+#  set outlet <1-8> name <name>
+#  ...
+#
+#  iBootBar > set outlet 1 name "Bar 1"
 
 sub _name_default {
   my $self=shift;
