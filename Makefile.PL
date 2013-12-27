@@ -6,6 +6,7 @@ WriteMakefile(
     ABSTRACT     => 'Control and query network attached power switches',
     PREREQ_PM    => {
                      'Test::Simple' => 0.44,
+                     'Package::New' => 0,
                     },
     EXE_FILES    => [
                     qw{

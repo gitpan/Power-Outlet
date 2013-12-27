@@ -71,7 +71,7 @@ __END__
 
 power-outlet.cgi - Control multiple Power::Outlet devices from web browser
 
-=head1 DESCRIPTIONG
+=head1 DESCRIPTION
 
 power-outlet.cgi is a CGI application to control multiple Power::Outlet devices.  It was written to work on iPhone and look ok on most browsers.
 

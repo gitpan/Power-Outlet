@@ -3,6 +3,10 @@ Revision history for Perl module Power::Outlet
 TODO
   - iBootBar default name from SNMP
 
+0.08 2013-12-27
+  - Fixed Makefile.PL for CPAN testers
+  - Fixed power-outlet.cgi pod documentation
+
 0.07 2013-12-18
   - Updated Documentation for CPAN
 
