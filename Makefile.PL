@@ -7,11 +7,11 @@ WriteMakefile(
     PREREQ_PM    => {
                      'Test::Simple' => 0.44,
                      'Package::New' => 0,
+                     'Net::SNMP'    => 0,
                     },
     EXE_FILES    => [
                     qw{
                        scripts/power-outlet
                       }
                     ],
-
 );

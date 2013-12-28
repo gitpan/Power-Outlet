@@ -1,9 +1,9 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.08
+Version:        0.09
 Release:        1%{?dist}
-Summary:        Control and query network attached power switches
+Summary:        Control and query network attached power outlets
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Power-Outlet/
@@ -12,24 +12,28 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::Simple) >= 0.44
-Requires:       perl(Test::Simple) >= 0.44
+BuildRequires:  perl(Package::New)
+Requires:       perl(Net::SNMP)
+Requires:       perl(Package::New)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description
 Power::Outlet is a package for controlling and querying network attached
-power switches. Individual hardware drivers in this name space must provide
+power outlets. Individual hardware drivers in this name space must provide
 a common object interface for the controlling and querying of an outlet.
 Common methods that every network attached power outlet must know are on,
 off, query, switch and cycle. Optional methods might be implemented in some
 drivers like amps and volts.
 
 %package application-cgi
-Summary:        Sample web application to control Power::Outlet devices
+Summary:        Control multiple Power::Outlet devices from web browser
 Requires:       %{name} = %{version}-%{release}
+Requires:       perl(CGI)
+Requires:       perl(Config::IniFiles)
 
 %description application-cgi
-perl-Power-Outlet-application-cgi is a sample web application to control
-multiple Power::Outlet devices.
+power-outlet.cgi is a CGI application to control multiple Power::Outlet
+devices. It was written to work on iPhone and look ok on most browsers.
 
 %prep
 %setup -q -n Power-Outlet-%{version}
@@ -85,7 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc Changes LICENSE README Todo
+%doc Changes LICENSE perl-Power-Outlet.spec README Todo
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 %{_mandir}/man1/%{lowername}.1.gz
