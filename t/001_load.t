@@ -1,14 +1,17 @@
 # -*- perl -*-
 use strict;
 use warnings;
-use Test::More tests => 36;
+use Test::More tests => 56;
 
 BEGIN { use_ok( 'Power::Outlet' ); }
 BEGIN { use_ok( 'Power::Outlet::Common' ); }
 BEGIN { use_ok( 'Power::Outlet::Common::IP' ); }
 BEGIN { use_ok( 'Power::Outlet::Common::IP::SNMP' ); }
+BEGIN { use_ok( 'Power::Outlet::Common::IP::HTTP' ); }
+BEGIN { use_ok( 'Power::Outlet::Common::IP::HTTP::UPnP' ); }
 BEGIN { use_ok( 'Power::Outlet::iBoot' ); }
 BEGIN { use_ok( 'Power::Outlet::iBootBar' ); }
+BEGIN { use_ok( 'Power::Outlet::WeMo' ); }
 
 {
 my $object = Power::Outlet->new(type=>"Common");
@@ -56,6 +59,25 @@ can_ok($object, qw{snmp_get snmp_set snmp_session});
 }
 
 {
+my $object = Power::Outlet::Common::IP::HTTP->new;
+isa_ok ($object, 'Power::Outlet::Common::IP::HTTP');
+can_ok($object, qw{new});
+can_ok($object, qw{on off switch cycle query});
+can_ok($object, qw{host port});
+can_ok($object, qw{http_path});
+}
+
+{
+my $object = Power::Outlet::Common::IP::HTTP::UPnP->new;
+isa_ok ($object, 'Power::Outlet::Common::IP::HTTP::UPnP');
+can_ok($object, qw{new});
+can_ok($object, qw{on off switch cycle query});
+can_ok($object, qw{host port});
+can_ok($object, qw{http_path});
+can_ok($object, qw{upnp_service_type});
+}
+
+{
 my $object = Power::Outlet::iBoot->new;
 isa_ok ($object, 'Power::Outlet::iBoot');
 can_ok($object, qw{new});
@@ -70,4 +92,14 @@ can_ok($object, qw{new});
 can_ok($object, qw{on off switch cycle query});
 can_ok($object, qw{host port});
 can_ok($object, qw{snmp_get snmp_set snmp_session});
+}
+
+{
+my $object = Power::Outlet::WeMo->new;
+isa_ok ($object, 'Power::Outlet::WeMo');
+can_ok($object, qw{new});
+can_ok($object, qw{on off switch cycle query});
+can_ok($object, qw{host port});
+can_ok($object, qw{http_path});
+can_ok($object, qw{upnp_service_type});
 }

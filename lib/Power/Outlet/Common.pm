@@ -4,7 +4,7 @@ use warnings;
 use Time::HiRes qw{sleep};
 use base qw{Package::New};
 
-our $VERSION='0.07';
+our $VERSION='0.10';
 our $STATE="OFF";
 
 =head1 NAME
@@ -95,7 +95,7 @@ sub cycle {
   my $self=shift;
   $self->switch;
   sleep $self->cycle_duration; #blocking. Maybe we should be non-blocking somehow.
-  return $self->swtich;
+  return $self->switch;
 }
 
 =head2 cycle_duration

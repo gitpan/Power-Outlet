@@ -1,7 +1,7 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.09
+Version:        0.11
 Release:        1%{?dist}
 Summary:        Control and query network attached power outlets
 License:        GPL+ or Artistic
@@ -14,6 +14,8 @@ BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::Simple) >= 0.44
 BuildRequires:  perl(Package::New)
 Requires:       perl(Net::SNMP)
+Requires:       perl(Net::UPnP)
+Requires:       perl(XML::LibXML::LazyBuilder)
 Requires:       perl(Package::New)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 

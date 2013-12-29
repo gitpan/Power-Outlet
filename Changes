@@ -2,6 +2,14 @@ Revision history for Perl module Power::Outlet
 
 TODO
   - iBootBar default name from SNMP
+  - WeMo default name from UPnP
+
+0.11 2013-12-29
+  - Fixed WeMo returns to be "ON"|"OFF" vs 0|1.
+
+0.10 2013-12-29
+  - Fixed Power::Outlet::Common->cycle (type-O calling switch method)
+  - Added WeMo capability
 
 0.09 2013-12-27
   - Fixed Makefile.PL for CPAN testers (Net::SNMP)

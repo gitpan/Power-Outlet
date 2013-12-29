@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Power-Outlet
-version:            0.09
+version:            0.11
 abstract:           Control and query network attached power switches
 author:
     - Michael R. Davis (mdavis@stopllc.com)
@@ -11,9 +11,11 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Net::SNMP:     0
-    Package::New:  0
-    Test::Simple:  0.44
+    Net::SNMP:            0
+    Net::UPnP:            0
+    Package::New:         0
+    Test::Simple:         0.44
+    XML::LibXML::LazyBuilder:  0
 no_index:
     directory:
         - t

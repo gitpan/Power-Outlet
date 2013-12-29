@@ -8,10 +8,15 @@ lib/Power/Outlet.pm
 lib/Power/Outlet/Common.pm
 lib/Power/Outlet/Common/IP.pm
 lib/Power/Outlet/Common/IP/SNMP.pm
+lib/Power/Outlet/Common/IP/HTTP.pm
+lib/Power/Outlet/Common/IP/HTTP/UPnP.pm
 lib/Power/Outlet/iBoot.pm
 lib/Power/Outlet/iBootBar.pm
+lib/Power/Outlet/WeMo.pm
 t/001_load.t
 t/002_iBoot_live.t
+t/003_iBootBar_live.t
+t/003_WeMo_live.t
 t/004_iBoot_defaults.t
 t/005_iBootBar_defaults.t
 perl-Power-Outlet.spec

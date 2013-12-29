@@ -4,7 +4,7 @@ use warnings;
 use Getopt::Std qw{getopts};
 use Power::Outlet;
 
-my $syntax="Syntax: power-outlet [-v] type [SWITCH|ON|OFF|CYCLE|QUERY] [opt1 val1 pot2 val2 ...]";
+my $syntax="Syntax: power-outlet [-v] type [SWITCH|ON|OFF|CYCLE|QUERY] [opt1 val1 opt2 val2 ...]";
 my %flags=();
 getopts('vd', \%flags);
 
