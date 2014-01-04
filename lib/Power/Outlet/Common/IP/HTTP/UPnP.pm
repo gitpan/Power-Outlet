@@ -6,7 +6,7 @@ use XML::LibXML::LazyBuilder qw{DOM E};
 use Net::UPnP::HTTP;
 use Net::UPnP::ActionResponse;
 
-our $VERSION='0.10';
+our $VERSION='0.12';
 
 =head1 NAME
 
@@ -17,7 +17,7 @@ Power::Outlet::Common::IP::HTTP::UPnP - Power::Outlet base class for UPnP power 
   use base qw{Power::Outlet::Common::IP::HTTP::UPnP};
 
 =head1 DESCRIPTION
- 
+
 Power::Outlet::Common::IP::HTTP::UPnP is a package for controlling and querying an UPnP-based network attached power outlet.
 
 =head1 USAGE
@@ -63,19 +63,19 @@ sub upnp_request {
   my $xmlns={"xmlns:s"=>"http://schemas.xmlsoap.org/soap/envelope/", "s:encodingStyle"=>"http://schemas.xmlsoap.org/soap/encoding/"};
 
   my $soap_content_obj;
-  
+
   if ($request_type eq "Set") {
     die("Error: Value required for Set request type") unless @_;
     my $value = shift;
     $soap_content_obj = DOM(
-                          E("s:Envelope"=>$xmlns, 
-                            E("s:Body"=>{}, 
+                          E("s:Envelope"=>$xmlns,
+                            E("s:Body"=>{},
                               E("u:$action_name"=>{"xmlns:u" => $self->upnp_service_type},
                                 E($event_name=>{}, $value)))));
   } elsif ($request_type eq "Get") {
     $soap_content_obj = DOM(
-                          E("s:Envelope"=>$xmlns, 
-                            E("s:Body"=>{}, 
+                          E("s:Envelope"=>$xmlns,
+                            E("s:Body"=>{},
                               E("u:$action_name"=>{"xmlns:u" => $self->upnp_service_type}))));
   } else {
     die(qq{Error: Unknown request type "$request_type".  Expected either "Get" or "Set".});
@@ -87,12 +87,12 @@ sub upnp_request {
   #  Bug Reported: https://rt.cpan.org/Ticket/Display.html?id=91711
 
   my $post_res = Net::UPnP::HTTP->new->postsoap(
-                                                $self->host,      #method from Power::Outlet::Common::IP 
-                                                $self->port,      #method from Power::Outlet::Common::IP 
-                                                $self->http_path, #method from Power::Outlet::Common::HTTP 
-                                                $soap_action, 
+                                                $self->host,      #method from Power::Outlet::Common::IP
+                                                $self->port,      #method from Power::Outlet::Common::IP
+                                                $self->http_path, #method from Power::Outlet::Common::HTTP
+                                                $soap_action,
                                                 $soap_content,
-                                               ); 
+                                               );
 
   die(sprintf("Error: HTTP Request failed. Status Code: %s", $post_res->getstatuscode)) unless $post_res->getstatuscode == 200;
 
@@ -118,11 +118,19 @@ DavisNetworks.com supports all Perl applications including this package.
 
 =head1 COPYRIGHT
 
+Copyright (c) 2013 Michael R. Davis
+
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 The full text of the license can be found in the LICENSE file included with this module.
 
+Portions of the UPnP Implementation Copyright (c) 2013 Eric Blue
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
 =head1 SEE ALSO
+
+L<Net:UPnP>, L<XML::LibXML::LazyBuilder>
 
 =cut
 

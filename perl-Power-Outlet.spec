@@ -1,7 +1,7 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.11
+Version:        0.12
 Release:        1%{?dist}
 Summary:        Control and query network attached power outlets
 License:        GPL+ or Artistic
@@ -35,7 +35,7 @@ Requires:       perl(Config::IniFiles)
 
 %description application-cgi
 power-outlet.cgi is a CGI application to control multiple Power::Outlet
-devices. It was written to work on iPhone and look ok on most browsers.
+devices. It was written to work on iPhone and look ok in most browsers.
 
 %prep
 %setup -q -n Power-Outlet-%{version}

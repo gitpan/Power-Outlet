@@ -2,13 +2,16 @@
 
 use strict;
 use warnings;
-use Test::More tests => 1 + 16 * 8;
-my $skip=16 * 8;
+use Test::More tests => 1 + 17 * 8;
+my $skip=17 * 8;
 
 BEGIN { use_ok( 'Power::Outlet::iBootBar' ); }
 
 my $host     =$ENV{"NET_IBOOTBAR_HOST"}     || undef;
 my $community=$ENV{"NET_IBOOTBAR_COMUNITY"} || undef;
+my $names    =$ENV{"NET_IBOOTBAR_NAMES"}    || "Bar 1,Bar 2,Outlet3,Outlet4,Outlet5,Outlet6,Outlet7,Outlet8"; #my devices defaults...
+
+my %name=(); @name{1 .. 8}=split(/,/, $names);
 
 SKIP: {
   unless ($host) {
@@ -16,6 +19,7 @@ SKIP: {
     diag($text);
     skip $text, $skip;
   }
+
 
   foreach my $outlet (1 .. 8) {
     diag("\n\nOutlet: $outlet\n\n");
@@ -25,6 +29,7 @@ SKIP: {
     is($device->host, $host, 'host');
     is($device->port, "161", 'port');
     is($device->community, "private", 'community');
+    is($device->name, $name{$outlet}, 'name');
 
     isa_ok ($device, 'Power::Outlet::iBootBar');
     my $state=$device->query;

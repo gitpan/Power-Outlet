@@ -4,8 +4,8 @@ use warnings;
 use base qw{Power::Outlet::Common::IP::SNMP};
 use Time::HiRes qw{sleep};
 
-our $VERSION='0.07';
-our $_oid_outletEntry='1.3.6.1.4.1.1418.4.3.1';
+our $VERSION='0.12';
+our $_oid_outletEntry='1.3.6.1.4.1.1418.4.3.1'; #enterprises.dataprobe.iBootBarAgent.outletTable.outletEntry
 
 =head1 NAME
 
@@ -121,27 +121,28 @@ sub _oid_outletName {
 
 =head2 name
 
-=cut
+Returns the name from the iBootBar outletName via SNMP
 
-#TODO: Pull name from SNMP outletName
-#
-#  $ telnet iBootBar
-#
-#  iBootBar Rev 1.5d.275
-#
-#  User Name:  admin
-#  Password:  *****
-#
-#  iBootBar > help outlet
-#  ...
-#  set outlet <1-8> name <name>
-#  ...
-#
-#  iBootBar > set outlet 1 name "Bar 1"
+  $ telnet iBootBar
+
+  iBootBar Rev 1.5d.275
+
+  User Name:  admin
+  Password:  *****
+
+  iBootBar > help outlet
+  ...
+  set outlet <1-8> name <name>
+  ...
+
+  iBootBar > set outlet 1 name "Bar 1"
+
+=cut
 
 sub _name_default {
   my $self=shift;
-  return sprintf "%s (%s)", $self->host, $self->outlet;
+  my $value=$self->snmp_get($self->_oid_outletName); #this value is cached in the super class
+  return $value;
 }
 
 =head1 METHODS

@@ -2,7 +2,7 @@ package Power::Outlet;
 use strict;
 use warnings;
 
-our $VERSION='0.11';
+our $VERSION='0.12';
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ The full text of the license can be found in the LICENSE file included with this
 
 =head1 SEE ALSO
 
-L<Power::Outlet::iBoot>, L<Power::Outlet::iBootBar>
+L<Power::Outlet::iBoot>, L<Power::Outlet::iBootBar>, L<Power::Outlet::WeMo>
 
 =cut
 

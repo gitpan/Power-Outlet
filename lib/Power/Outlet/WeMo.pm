@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw{Power::Outlet::Common::IP::HTTP::UPnP};
 
-our $VERSION='0.11';
+our $VERSION='0.12';
 
 =head1 NAME
 
@@ -62,13 +62,16 @@ sub _port_default {"49153"};
 
 =head2 name
 
-Returns the host name (for now)
-
-TODO: Pull from UPnP FriendlyName
+Returns the configured FriendlyName from the WeMo device
 
 =cut
 
-sub _name_default {shift->host};
+sub _name_default {
+  my $self=shift;
+  my $res=$self->upnp_request("Get", "FriendlyName"); #isa Net::UPnP::ActionResponse
+  my $name=$res->getargumentlist->{'FriendlyName'};
+  return $name;
+}
 
 sub _http_path_default {"/upnp/control/basicevent1"}; #WeMo
 
@@ -78,7 +81,7 @@ sub _upnp_service_type_default {"urn:Belkin:service:basicevent:1"}; #WeMo defaul
 
 =head2 query
 
-Sends a TCP/IP message to the iBoot device to query the current state
+Sends a UPnP message to the WeMo device to query the current state
 
 =cut
 
@@ -95,7 +98,7 @@ sub query {
 
 =head2 on
 
-Sends a TCP/IP message to the iBoot device to Turn Power ON
+Sends a UPnP message to the WeMo device to Turn Power ON
 
 =cut
 
@@ -108,7 +111,7 @@ sub on {
 
 =head2 off
 
-Sends a TCP/IP message to the iBoot device to Turn Power OFF
+Sends a UPnP message to the WeMo device to Turn Power OFF
 
 =cut
 
@@ -130,6 +133,8 @@ Queries the device for the current status and then requests the opposite.
 
 =head2 cycle
 
+Sends UPnP messages to the WeMo device to Cycle Power (ON-OFF-ON or OFF-ON-OFF).
+
 =cut
 
 #see Power::Outlet::Common->cycle
@@ -150,11 +155,19 @@ DavisNetworks.com supports all Perl applications including this package.
 
 =head1 COPYRIGHT
 
+Copyright (c) 2013 Michael R. Davis
+
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 The full text of the license can be found in the LICENSE file included with this module.
 
+Portions of the WeMo Implementation Copyright (c) 2013 Eric Blue
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
 =head1 SEE ALSO
+
+L<WebService::Belkin::Wemo::Device>, L<https://gist.github.com/jscrane/7257511>
 
 =cut
 

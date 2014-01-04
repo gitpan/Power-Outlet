@@ -73,7 +73,7 @@ power-outlet.cgi - Control multiple Power::Outlet devices from web browser
 
 =head1 DESCRIPTION
 
-power-outlet.cgi is a CGI application to control multiple Power::Outlet devices.  It was written to work on iPhone and look ok on most browsers.
+power-outlet.cgi is a CGI application to control multiple Power::Outlet devices.  It was written to work on iPhone and look ok in most browsers.
 
 =head1 CONFIGURATION
 
@@ -91,6 +91,12 @@ If you need to override the defaults
   port=80
   pass=PASS
   name=My iBoot Description
+
+WeMo device
+
+  [WeMo]
+  type=WeMo
+  host=mywemo
 
 Default Location: /usr/share/power-outlet/conf/power-outlet.ini
 
