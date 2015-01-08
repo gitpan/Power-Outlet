@@ -1,8 +1,8 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.14
-Release:        1%{?dist}
+Version:        0.15
+Release:        2%{?dist}
 Summary:        Control and query network attached power outlets
 License:        GPL+ or Artistic
 Group:          Development/Libraries

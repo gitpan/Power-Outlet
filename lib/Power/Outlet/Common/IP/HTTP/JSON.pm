@@ -3,10 +3,9 @@ use strict;
 use warnings;
 use base qw{Power::Outlet::Common::IP::HTTP};
 #use Data::Dumper qw{Dumper};
-use HTTP::Tiny qw{};
 use JSON qw{encode_json decode_json};
 
-our $VERSION='0.14';
+our $VERSION='0.15';
 
 =head1 NAME
 
@@ -49,7 +48,7 @@ sub json_request {
   $options{"content"} = encode_json($input) if defined $input;
   #print "$method $url\n";
   #print Dumper(\%options);
-  my $response = HTTP::Tiny->new->request($method, $url, \%options);  
+  my $response = $self->http_client->request($method, $url, \%options);  
   die(sprintf(qq{HTTP Error: "%s", URL: "$url"}, $response->{"reason"})) unless $response->{"status"} eq "200";
   my $json     = $response->{"content"};
   #print "Response: $json\n";

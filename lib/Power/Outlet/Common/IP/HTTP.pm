@@ -2,9 +2,10 @@ package Power::Outlet::Common::IP::HTTP;
 use strict;
 use warnings;
 use URI qw{};
+use HTTP::Tiny qw{};
 use base qw{Power::Outlet::Common::IP};
 
-our $VERSION='0.14';
+our $VERSION='0.15';
 
 =head1 NAME
 
@@ -67,6 +68,22 @@ sub http_path {
 }
 
 sub _http_path_default {"/upnp/control/basicevent1"}; #WeMo
+
+=head1 OBJECT ACCESSORS
+
+=head2 http_client
+
+Returns a cached L<HTTP::Tiny> web client
+
+=cut
+
+sub http_client {
+  my $self=shift;
+  $self->{"http_client"}=shift if @_;
+  $self->{"http_client"}=HTTP::Tiny->new
+    unless ref($self->{"http_client"}) eq "HTTP::Tiny";
+  return $self->{"http_client"};
+}
 
 =head1 BUGS
 

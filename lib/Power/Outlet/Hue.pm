@@ -1,11 +1,11 @@
 package Power::Outlet::Hue;
 use strict;
 use warnings;
-#use Data::Dumper qw{Dumper};
+use Data::Dumper qw{Dumper};
 use List::Util qw{first};
 use base qw{Power::Outlet::Common::IP::HTTP::JSON};
 
-our $VERSION='0.14';
+our $VERSION='0.15';
 
 =head1 NAME
 
@@ -41,7 +41,7 @@ Power::Outlet::Hue is a package for controlling and querying a light on a Philip
 
 ID for the particular light as configured in the Philips Hue Bridge
 
-Note: default = 1
+Default: 1
 
 =cut
 
@@ -57,8 +57,6 @@ sub _id_default {1};
 =head2 host
 
 Sets and returns the hostname or IP address.
-
-Note: Set IP address via DHCP static mapping
 
 Default: mybridge
 
@@ -78,6 +76,8 @@ sub _port_default {"80"};
 
 =head2 username
 
+Sets and returns the username used for authentication with the Hue Bridge
+
 Default: newdeveloper (Hue Emulator default)
 
 =cut
@@ -93,11 +93,11 @@ sub _username_default {"newdeveloper"};
 
 =head2 name
 
-Returns the configured FriendlyName from the Hue device
+Returns the configured friendly name for the device
 
 =cut
 
-sub _name_default {
+sub _name_default { #overloaded _name_default so the name will be cached for the life of this object
   my $self=shift;
   my $url=$self->url; #isa URI from Power::Outlet::Common::IP::HTTP
   $url->path(sprintf("/api/%s/lights/%s", $self->username, $self->id));
@@ -109,21 +109,40 @@ sub _name_default {
 
 =head2 query
 
-Sends an HTTP message to the Hue device to query the current state
+Sends an HTTP message to the device to query the current state
 
 =cut
 
-#Return: {"identifier":null,"state":{"on":true,"bri":254,"hue":4444,"sat":254,"xy":[0.0,0.0],"ct":0,"alert":"none","effect":"none","colormode":"hs","reachable":true,"transitionTime":null},"type":"Extended color light","name":"Hue Lamp 1","modelid":"LCT001","swversion":"65003148","pointsymbol":{"1":"none","2":"none","3":"none","4":"none","5":"none","6":"none","7":"none","8":"none"}}
+#Response: {"identifier":null,"state":{"on":true,"bri":254,"hue":4444,"sat":254,"xy":[0.0,0.0],"ct":0,"alert":"none","effect":"none","colormode":"hs","reachable":true,"transitionTime":null},"type":"Extended color light","name":"Hue Lamp 1","modelid":"LCT001","swversion":"65003148","pointsymbol":{"1":"none","2":"none","3":"none","4":"none","5":"none","6":"none","7":"none","8":"none"}}
+#Response: [{"error":{"address":"/","description":"unauthorized user","type":"1"}}]
+#Response: [{"error":{"address":"/lights/333","description":"resource, /lights/333, not available","type":"3"}}]
+
 
 sub query {
   my $self=shift;
   if (defined wantarray) { #scalar and list context
+
+    #url configuration
     my $url=$self->url; #isa URI from Power::Outlet::Common::IP::HTTP
     $url->path(sprintf("/api/%s/lights/%s", $self->username, $self->id));
+
+    #web request
     my $res=$self->json_request(GET => $url); #isa perl structure
-    my $state=$res->{"state"}->{"on"}; #isa boolean true/false
-    #print Dumper(query=>$state);
-    return $state ? "ON" : "OFF";
+
+    #Response is an ARRAY on error and a HASH on success
+    if (ref($res) eq "HASH") {
+      die("Error: (query) state does not exists")              unless exists $res->{"state"};
+      die("Error: (query) state is not a hash")                unless ref($res->{"state"}) eq "HASH";
+      die("Error: (query) state does not provide on property") unless exists $res->{"state"}->{"on"};
+      my $state=$res->{"state"}->{"on"}; #isa boolean true/false
+      return $state ? "ON" : "OFF";
+    } elsif (ref($res) eq "ARRAY") {
+      my $hash=shift(@$res);
+      die(sprintf(qq{Error: (query) "%s"}, $hash->{"error"}->{"description"})) if exists $hash->{"error"};
+      die(sprintf("Error: (query) Unkown Error: URL: %s\n\n%s", $url, Dumper($res)));
+    } else {
+      die(sprintf("Error: (query) Unkown Error: URL: %s\n\n%s", $url, Dumper($res)));
+    }
   } else { #void context
     return;
   }
@@ -131,37 +150,55 @@ sub query {
 
 =head2 on
 
-Sends a UPnP message to the Hue device to Turn Power ON
+Sends a message to the device to Turn Power ON
 
 =cut
 
-#return: [{"success":{"/lights/1/state/on":true}}]
+#Response: [{"success":{"/lights/1/state/on":true}}]
+#Response: [{"error":{"address":"/","description":"unauthorized user","type":"1"}}]
+#Response: [{"error":{"address":"/lights/333","description":"resource, /lights/333, not available","type":"3"}}]
 
 sub on {
-  my $self=shift;
-  my $url=$self->url; #isa URI from Power::Outlet::Common::IP::HTTP
-  $url->path(sprintf("/api/%s/%s/state", $self->username, $self->id));
-  my $res=$self->json_request(PUT => $url, {on=>\1}); #isa perl structure
-  #print Dumper(on=>$res);
-  my $hash=$res->[0]->{"success"};
-  my $state=first {1} values(%$hash); #isa boolean true/false
-  return $state ? "ON" : "OFF";
+  my $self = shift;
+  return $self->_call("on");
 }
 
 =head2 off
 
-Sends a UPnP message to the Hue device to Turn Power OFF
+Sends a message to the device to Turn Power OFF
 
 =cut
 
 sub off {
-  my $self=shift;
-  my $url=$self->url; #isa URI from Power::Outlet::Common::IP::HTTP
+  my $self = shift;
+  return $self->_call("off");
+}
+
+sub _call {
+  my $self    = shift;
+  my $input   = shift or die;
+  my $boolean = $input eq "on"  ? \1 : #JSON true
+                $input eq "off" ? \0 : #JSON false
+                die("Error: (_call) syntax _call('on'||'off')");
+
+  #url configuration
+  my $url     = $self->url; #isa URI from Power::Outlet::Common::IP::HTTP
   $url->path(sprintf("/api/%s/%s/state", $self->username, $self->id));
-  my $res=$self->json_request(PUT => $url, {on=>\0}); #isa perl structure
-  #print Dumper(on=>$res);
-  my $hash=$res->[0]->{"success"};
-  my $state=first {1} values(%$hash); #isa boolean true/false
+
+  #web request
+  my $array   = $self->json_request(PUT => $url, {on=>$boolean}); #isa perl structure
+
+  #error handling
+  die("Error: ($input) failed to return expected JSON format") unless ref($array) eq "ARRAY";
+  my $hash=shift(@$array);
+  die("Error: ($input) Failed to return expected JSON format") unless ref($hash) eq "HASH";
+  die(sprintf(qq{Error: ($input) "%s"}, $hash->{"error"}->{"description"})) if exists $hash->{"error"};
+  die(sprintf("Error: ($input) Unkown Error: URL: %s\n\n%s", $url, Dumper($array))) unless exists $hash->{"success"};
+  my $success=$hash->{"success"};
+  #state normalization
+  my $key     = sprintf("/lights/%s/state/on", $self->id);
+  die("Error: ($input) Unkown success state") unless exists $success->{$key};
+  my $state   = $success->{$key};
   return $state ? "ON" : "OFF";
 }
 
@@ -175,7 +212,7 @@ Queries the device for the current status and then requests the opposite.
 
 =head2 cycle
 
-Sends messages to the Hue device to Cycle Power (ON-OFF-ON or OFF-ON-OFF).
+Sends messages to the device to Cycle Power (ON-OFF-ON or OFF-ON-OFF).
 
 =cut
 
@@ -203,13 +240,9 @@ This program is free software; you can redistribute it and/or modify it under th
 
 The full text of the license can be found in the LICENSE file included with this module.
 
-Portions of the Hue Implementation Copyright (c) 2013 Eric Blue
-
-This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
-
 =head1 SEE ALSO
 
-L<WebService::Belkin::Wemo::Device>, L<https://gist.github.com/jscrane/7257511>
+L<http://www.developers.meethue.com/philips-hue-api>, L<http://steveyo.github.io/Hue-Emulator/>
 
 =cut
 

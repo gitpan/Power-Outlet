@@ -4,7 +4,7 @@ use warnings;
 use Time::HiRes qw{sleep};
 use base qw{Package::New};
 
-our $VERSION='0.10';
+our $VERSION='0.15';
 our $STATE="OFF";
 
 =head1 NAME

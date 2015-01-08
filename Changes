@@ -3,6 +3,9 @@ Revision history for Perl module Power::Outlet
 TODO
   - RE-write Net::UPnP interfaces as Net:UPnP is not good at error trapping or timeouts.
 
+0.15 2015-01-07
+  - Cleaned up Philips Hue code and documentation
+
 0.14 2015-01-07
   - Added support for Philips Hue devices
 
