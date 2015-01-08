@@ -48,8 +48,12 @@ power-outlet - Control and query a Power::Outlet device from command line
 =head1 SYNOPSIS
 
   power-outlet -v
-  power-outlet iBoot SWITCH host lamp
-  power-outlet iBootBar SWITCH host bar outlet 1
+  power-outlet iBoot    ON   host mylamp
+  power-outlet iBoot    OFF  host mylamp
+  power-outlet iBootBar ON   host mybar   outlet 1
+  power-outlet iBootBar OFF  host mybar   outlet 1
+  power-outlet WeMo     ON   host mywemo
+  power-outlet WeMo     OFF  host mywemo
 
 =head1 DESCRIPTION
 

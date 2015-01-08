@@ -10,6 +10,9 @@ WriteMakefile(
                      'Net::SNMP'                => 0, #for iBootBar
                      'Net::UPnP'                => 0, #for WeMo
                      'XML::LibXML::LazyBuilder' => 0, #for WeMo
+                     'URI'                      => 0, #for Hue
+                     'HTTP::Tiny'               => 0, #for Hue
+                     'JSON'                     => 0, #for Hue
                     },
     EXE_FILES    => [
                     qw{

@@ -3,6 +3,12 @@ Revision history for Perl module Power::Outlet
 TODO
   - RE-write Net::UPnP interfaces as Net:UPnP is not good at error trapping or timeouts.
 
+0.14 2015-01-07
+  - Added support for Philips Hue devices
+
+0.13 2014-12-21
+  - Added script power-outlet-json.cgi
+
 0.12 2013-12-31
   - Updated Power::Outlet::WeMo->name default value to pull the FriendlyName from UPnP
   - Updated Power::Outlet::iBootBar->name default value to pull the outletName from SNMP

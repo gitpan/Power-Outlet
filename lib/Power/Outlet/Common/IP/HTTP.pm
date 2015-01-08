@@ -1,10 +1,10 @@
 package Power::Outlet::Common::IP::HTTP;
 use strict;
 use warnings;
+use URI qw{};
 use base qw{Power::Outlet::Common::IP};
 
-our $VERSION='0.10';
-
+our $VERSION='0.14';
 
 =head1 NAME
 
@@ -21,6 +21,29 @@ Power::Outlet::Common::IP::HTTP is a package for controlling and querying an HTT
 =head1 USAGE
 
   use base qw{Power::Outlet::Common::IP::HTTP};
+
+=head1 METHODS
+
+=head2 url
+
+Returns a configured L<URI::http> object
+
+=cut
+
+sub url {
+  my $self=shift;
+  $self->{"url"}=shift if @_;
+  unless (defined $self->{"url"}) {
+    my $url=URI->new;
+    $url->scheme("http");
+    $url->host($self->host);      #from Power::Outlet::Common::IP
+    $url->port($self->port);      #from Power::Outlet::Common::IP
+    $url->path($self->http_path); #from Power::Outlet::Common::IP::HTTP
+    $self->{"url"}=$url;
+  }
+  die unless $self->{"url"}->isa("URI");
+  return $self->{"url"}->clone;
+}
 
 =head1 PROPERTIES
 

@@ -1,7 +1,7 @@
 %define lowername  power-outlet
 
 Name:           perl-Power-Outlet
-Version:        0.12
+Version:        0.14
 Release:        1%{?dist}
 Summary:        Control and query network attached power outlets
 License:        GPL+ or Artistic
@@ -13,10 +13,16 @@ BuildArch:      noarch
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::Simple) >= 0.44
 BuildRequires:  perl(Package::New)
+BuildRequires:  perl(HTTP::Tiny)
+BuildRequires:  perl(JSON)
+BuildRequires:  perl(URI)
 Requires:       perl(Net::SNMP)
 Requires:       perl(Net::UPnP)
 Requires:       perl(XML::LibXML::LazyBuilder)
 Requires:       perl(Package::New)
+Requires:       perl(HTTP::Tiny)
+Requires:       perl(JSON)
+Requires:       perl(URI)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description
@@ -32,6 +38,7 @@ Summary:        Control multiple Power::Outlet devices from web browser
 Requires:       %{name} = %{version}-%{release}
 Requires:       perl(CGI)
 Requires:       perl(Config::IniFiles)
+Requires:       perl(JSON)
 
 %description application-cgi
 power-outlet.cgi is a CGI application to control multiple Power::Outlet
@@ -70,6 +77,7 @@ cp ./scripts/images/btn-on.png       $RPM_BUILD_ROOT/%{_datadir}/%{lowername}/im
 cp ./scripts/images/btn-off.png      $RPM_BUILD_ROOT/%{_datadir}/%{lowername}/images/
 cp ./scripts/conf/%{lowername}.ini   $RPM_BUILD_ROOT/%{_datadir}/%{lowername}/conf/
 cp ./scripts/%{lowername}.cgi        $RPM_BUILD_ROOT/%{_datadir}/%{lowername}/cgi-bin/
+cp ./scripts/%{lowername}-json.cgi   $RPM_BUILD_ROOT/%{_datadir}/%{lowername}/cgi-bin/
 
 %check
 make test
@@ -86,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{lowername}/images/
 %config %{_datadir}/%{lowername}/conf/%{lowername}.ini
 %attr(0755,root,root) %{_datadir}/%{lowername}/cgi-bin/%{lowername}.cgi
+%attr(0755,root,root) %{_datadir}/%{lowername}/cgi-bin/%{lowername}-json.cgi
 %{_datadir}/%{lowername}/images/btn-on.png
 %{_datadir}/%{lowername}/images/btn-off.png
 
